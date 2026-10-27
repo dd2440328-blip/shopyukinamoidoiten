@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UGPhone Store — MegaHub</title>
+<style>
+  :root {
+    --bg: #0a0a14;
+    --card: #111122;
+    --accent: #00b4ff;
+    --accent2: #7b2fff;
+    --text: #e8e8ff;
+    --sub: #888aaa;
+    --border: #1e1e3a;
+    --green: #00e676;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Segoe UI',sans-serif; min-height:100vh; }
+  nav { display:flex; align-items:center; justify-content:space-between; padding:16px 40px; background:rgba(10,10,20,0.95); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; backdrop-filter:blur(12px); }
+  .logo { font-size:1.4rem; font-weight:800; letter-spacing:1px; }
+  .logo span { color:var(--accent); }
+  .nav-links a { color:var(--sub); text-decoration:none; margin-left:28px; font-size:.95rem; transition:.2s; }
+  .nav-links a:hover { color:var(--accent); }
+  .nav-btn { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border:none; padding:8px 22px; border-radius:8px; font-weight:700; cursor:pointer; font-size:.9rem; margin-left:20px; }
+  .hero { text-align:center; padding:80px 20px 60px; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(0,180,255,.12) 0%, transparent 70%); }
+  .hero-badge { display:inline-block; background:rgba(0,180,255,.12); color:var(--accent); border:1px solid rgba(0,180,255,.3); border-radius:20px; padding:4px 16px; font-size:.8rem; font-weight:700; margin-bottom:18px; letter-spacing:1px; }
+  .hero h1 { font-size:2.8rem; font-weight:900; line-height:1.2; margin-bottom:16px; }
+  .hero h1 span { background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero p { color:var(--sub); font-size:1.05rem; max-width:520px; margin:0 auto 32px; line-height:1.7; }
+  .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary { background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border:none; padding:13px 32px; border-radius:10px; font-weight:800; font-size:1rem; cursor:pointer; transition:.2s; }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,180,255,.3); }
+  .btn-outline { background:transparent; color:var(--accent); border:1.5px solid var(--accent); padding:13px 32px; border-radius:10px; font-weight:700; font-size:1rem; cursor:pointer; transition:.2s; }
+  .stats { display:flex; justify-content:center; gap:48px; flex-wrap:wrap; padding:32px 20px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .stat { text-align:center; }
+  .stat-num { font-size:2rem; font-weight:900; color:var(--accent); }
+  .stat-lbl { font-size:.82rem; color:var(--sub); margin-top:4px; }
+  .section { padding:64px 20px; max-width:1100px; margin:0 auto; }
+  .section-title { text-align:center; font-size:1.8rem; font-weight:800; margin-bottom:8px; }
+  .section-title span { color:var(--accent); }
+  .section-sub { text-align:center; color:var(--sub); margin-bottom:40px; font-size:.95rem; }
+
+  /* PLANS TABLE */
+  .plans-table { width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden; }
+  .plans-table thead tr { background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+  .plans-table thead th { padding:16px 20px; text-align:left; font-size:.95rem; font-weight:800; color:#fff; }
+  .plans-table tbody tr { border-bottom:1px solid var(--border); transition:.2s; }
+  .plans-table tbody tr:hover { background:rgba(0,180,255,.05); }
+  .plans-table tbody td { padding:16px 20px; font-size:.92rem; color:var(--sub); vertical-align:middle; }
+  .plans-table tbody td:first-child { color:var(--text); font-weight:700; }
+  .plan-tag { display:inline-block; padding:3px 12px; border-radius:20px; font-size:.78rem; font-weight:800; margin-left:8px; }
+  .tag-popular { background:rgba(0,180,255,.15); color:var(--accent); border:1px solid rgba(0,180,255,.3); }
+  .tag-vip { background:rgba(255,214,0,.12); color:#ffd600; border:1px solid rgba(255,214,0,.3); }
+  .tag-life { background:rgba(123,47,255,.15); color:#b47fff; border:1px solid rgba(123,47,255,.3); }
+  .price-cell { color:var(--text) !important; font-size:1.1rem !important; font-weight:900 !important; }
+  .price-input { background:rgba(0,180,255,.07); border:1.5px dashed rgba(0,180,255,.4); color:var(--accent); border-radius:8px; padding:6px 12px; font-size:1rem; font-weight:800; width:120px; text-align:center; outline:none; }
+  .price-input::placeholder { color:rgba(0,180,255,.4); font-size:.85rem; }
+  .buy-btn { padding:8px 20px; border-radius:8px; font-weight:800; font-size:.88rem; cursor:pointer; transition:.2s; border:none; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; }
+  .buy-btn:hover { opacity:.85; transform:translateY(-1px); }
+  .buy-btn-outline { background:transparent; color:var(--accent); border:1.5px solid var(--accent) !important; }
+
+  /* NOTICE BOX */
+  .notice { background:rgba(0,180,255,.07); border:1.5px dashed rgba(0,180,255,.35); border-radius:12px; padding:18px 24px; margin-bottom:32px; color:var(--sub); font-size:.9rem; line-height:1.7; }
+  .notice strong { color:var(--accent); }
+
+  .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .feat-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:24px 20px; text-align:center; transition:.3s; }
+  .feat-card:hover { border-color:var(--accent); }
+  .feat-icon { font-size:2rem; margin-bottom:12px; }
+  .feat-title { font-weight:700; margin-bottom:8px; }
+  .feat-desc { color:var(--sub); font-size:.88rem; line-height:1.6; }
+  .faq { max-width:700px; margin:0 auto; }
+  .faq-item { border:1px solid var(--border); border-radius:12px; margin-bottom:10px; overflow:hidden; }
+  .faq-q { padding:16px 20px; cursor:pointer; font-weight:700; font-size:.95rem; display:flex; justify-content:space-between; align-items:center; background:var(--card); transition:.2s; }
+  .faq-q:hover { background:#161630; }
+  .faq-q .arrow { color:var(--accent); transition:.3s; }
+  .faq-a { max-height:0; overflow:hidden; transition:.3s; background:#0d0d1e; color:var(--sub); font-size:.9rem; line-height:1.7; }
+  .faq-a.open { max-height:200px; padding:14px 20px; }
+  .faq-q.active .arrow { transform:rotate(180deg); }
+  .contact-box { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:40px; text-align:center; max-width:560px; margin:0 auto; }
+  .contact-box h3 { font-size:1.5rem; font-weight:800; margin-bottom:10px; }
+  .contact-box p { color:var(--sub); margin-bottom:24px; font-size:.95rem; }
+  .contact-links { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .contact-link { display:flex; align-items:center; gap:8px; background:rgba(0,180,255,.1); border:1px solid rgba(0,180,255,.25); color:var(--accent); padding:10px 22px; border-radius:10px; text-decoration:none; font-weight:700; font-size:.9rem; transition:.2s; }
+  .contact-link:hover { background:rgba(0,180,255,.2); }
+  footer { text-align:center; padding:28px 20px; border-top:1px solid var(--border); color:var(--sub); font-size:.85rem; }
+  footer span { color:var(--accent); font-weight:700; }
+  @media(max-width:700px) { nav { padding:14px 18px; } .nav-links { display:none; } .hero h1 { font-size:1.9rem; } .plans-table thead th:nth-child(3), .plans-table tbody td:nth-child(3) { display:none; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">⚡<span>UGPhone</span>Store</div>
+  <div class="nav-links">
+    <a href="#plans">Gói cước</a>
+    <a href="#features">Tính năng</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Liên hệ</a>
+  </div>
+  <button class="nav-btn">🛒 Mua ngay</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">⚡ POWERED BY MEGAHUB</div>
+  <h1>Máy ảo Android<br><span>UGPhone Premium</span></h1>
+  <p>Chạy đa tài khoản, multi-app, game cloud mượt mà. Không cần thiết bị mạnh — chạy 100% trên server.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('plans').scrollIntoView({behavior:'smooth'})">🚀 Xem gói cước</button>
+    <button class="btn-outline">📖 Hướng dẫn</button>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num" id="s1">—</div><div class="stat-lbl">Khách hàng</div></div>
+  <div class="stat"><div class="stat-num" id="s2">—</div><div class="stat-lbl">Uptime</div></div>
+  <div class="stat"><div class="stat-num">24/7</div><div class="stat-lbl">Hỗ trợ</div></div>
+  <div class="stat"><div class="stat-num">5★</div><div class="stat-lbl">Đánh giá</div></div>
+</div>
+
+<section class="section" id="plans">
+  <div class="section-title">Bảng giá <span>UGPhone</span></div>
+  <div class="section-sub">Chủ shop tự cập nhật giá — khách chỉ cần liên hệ mua</div>
+
+  <div class="notice">
+    <strong>📌 Ghi chú cho chủ shop:</strong> Chỉnh giá trực tiếp trong file HTML — tìm dòng <code>&lt;!-- GIÁ --&gt;</code> và thay số vào. Hoặc dùng ô nhập bên dưới để xem trước (chỉ hiển thị phía client, không lưu).
+  </div>
+
+  <table class="plans-table">
+    <thead>
+      <tr>
+        <th>Gói</th>
+        <th>Thời hạn</th>
+        <th>Cấu hình</th>
+        <th>Giá</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>🔵 BASIC</td>
+        <td>7 ngày</td>
+        <td>1 máy · 2GB RAM · 50GB · 50Mbps</td>
+        <td class="price-cell"><!-- GIÁ --><span class="price-display">Liên hệ</span></td>
+        <td><button class="buy-btn buy-btn-outline">Mua</button></td>
+      </tr>
+      <tr>
+        <td>🟣 PRO <span class="plan-tag tag-popular">PHỔ BIẾN</span></td>
+        <td>30 ngày</td>
+        <td>3 máy · 4GB RAM · 100GB · 100Mbps · Multi · GPS</td>
+        <td class="price-cell"><span class="price-display">Liên hệ</span></td>
+        <td><button class="buy-btn">Mua</button></td>
+      </tr>
+      <tr>
+        <td>👑 VIP <span class="plan-tag tag-vip">VIP</span></td>
+        <td>30 ngày</td>
+        <td>10 máy · 8GB RAM · 200GB · 200Mbps · Root · GPS</td>
+        <td class="price-cell"><span class="price-display">Liên hệ</span></td>
+        <td><button class="buy-btn buy-btn-outline">Mua</button></td>
+      </tr>
+      <tr>
+        <td>💎 LIFETIME <span class="plan-tag tag-life">FOREVER</span></td>
+        <td>Vĩnh viễn</td>
+        <td>∞ máy · 16GB RAM · 500GB · 500Mbps · All features</td>
+        <td class="price-cell"><span class="price-display">Liên hệ</span></td>
+        <td><button class="buy-btn">Mua</button></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="features">
+  <div class="section-title">Tính năng <span>nổi bật</span></div>
+  <div class="section-sub">Tại sao chọn UGPhone Store?</div>
+  <div class="features">
+    <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Kích hoạt tức thì</div><div class="feat-desc">Key gửi tự động sau thanh toán, không cần chờ.</div></div>
+    <div class="feat-card"><div class="feat-icon">🛡️</div><div class="feat-title">Bảo mật cao</div><div class="feat-desc">Dữ liệu mã hóa, không lưu thông tin cá nhân.</div></div>
+    <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-title">Multi-instance</div><div class="feat-desc">Chạy nhiều tài khoản cùng lúc, farm game siêu tốc.</div></div>
+    <div class="feat-card"><div class="feat-icon">🌍</div><div class="feat-title">GPS giả lập</div><div class="feat-desc">Đổi vị trí GPS dễ dàng, hỗ trợ game location-based.</div></div>
+    <div class="feat-card"><div class="feat-icon">💾</div><div class="feat-title">Lưu trữ cloud</div><div class="feat-desc">Dữ liệu trên cloud, không mất khi reset thiết bị.</div></div>
+    <div class="feat-card"><div class="feat-icon">🎮</div><div class="feat-title">Tối ưu game</div><div class="feat-desc">Server cấu hình cao, chơi mượt không lag.</div></div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="section-title"><span>FAQ</span> — Câu hỏi thường gặp</div>
+  <div class="section-sub">Giải đáp nhanh các thắc mắc</div>
+  <div class="faq">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Sau khi mua tôi nhận key ở đâu? <span class="arrow">▼</span></div><div class="faq-a">Key gửi tự động qua Telegram hoặc email sau thanh toán trong 1–5 phút.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Có thể gia hạn gói không? <span class="arrow">▼</span></div><div class="faq-a">Có, liên hệ admin Telegram để gia hạn. Gói không bị gián đoạn khi gia hạn trước hết hạn.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">UGPhone hỗ trợ Android phiên bản nào? <span class="arrow">▼</span></div><div class="faq-a">Hỗ trợ Android 9–13. Chọn phiên bản khi tạo máy ảo.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Có hoàn tiền không? <span class="arrow">▼</span></div><div class="faq-a">Hỗ trợ hoàn tiền 24h đầu nếu lỗi từ server. Liên hệ admin kèm bằng chứng.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Dùng được trên PC không? <span class="arrow">▼</span></div><div class="faq-a">Có, truy cập qua trình duyệt web hoặc app UGPhone trên PC/Mac/iOS/Android.</div></div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <div class="section-title">Liên hệ <span>hỗ trợ</span></div>
+  <div class="section-sub">Phản hồi trong vòng 5 phút</div>
+  <div class="contact-box">
+    <h3>⚡ MegaHub Support</h3>
+    <p>Mua hàng, hỗ trợ kỹ thuật và báo lỗi — liên hệ trực tiếp.</p>
+    <div class="contact-links">
+      <a class="contact-link" href="#">✈️ Telegram</a>
+      <a class="contact-link" href="#">💬 Discord</a>
+      <a class="contact-link" href="#">📘 Facebook</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2025 <span>UGPhone Store — MegaHub</span> · script.MegaTikHub · All rights reserved</footer>
+
+<script>
+  function toggleFaq(el) {
+    const ans = el.nextElementSibling;
+    const isOpen = ans.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('active'));
+    if (!isOpen) { ans.classList.add('open'); el.classList.add('active'); }
+  }
+</script>
+</body>
+</html>
